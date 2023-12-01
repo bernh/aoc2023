@@ -1,0 +1,27 @@
+<!-- simple test html file for running via wasm in the browser -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+  </head>
+  <body>
+    <script type="module">
+      import init, {wasm_solve} from './pkg/aoc2023.js';
+
+      async function run() {
+        await init();
+        console.log(wasm_solve(0, "2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n"));
+
+        // does not work due to CORS :-(
+        // input = await fetch("https://adventofcode.com/2022/day/4/input");
+        const input = await fetch("inputs/day0.txt")
+        console.log(wasm_solve(0, input));
+      }
+
+      run();
+    </script>
+
+    testing the wasm verison of the workout lib
+  </body>
+</html>
