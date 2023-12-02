@@ -5,7 +5,7 @@ use std::time::Instant;
 fn main() {
     // let cli = Cli::parse();
     let now = Instant::now();
-    let solutions: aoc2023::Solution = aoc2023::solve(1, input("inputs/day1.txt"));
+    let solutions: aoc2023::Solution = aoc2023::solve(2, input("inputs/day2.txt"));
     let elapsed = now.elapsed();
     println!(
         "Solutions for day 0 are: {} and {}",
