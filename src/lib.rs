@@ -1,7 +1,8 @@
 // declare modules: example + one per day
 mod day0;
+mod day1;
 use wasm_bindgen::prelude::*;
-use web_sys::console;
+// use web_sys::console;
 
 #[wasm_bindgen(getter_with_clone)]
 pub struct Solution {
@@ -13,6 +14,7 @@ pub fn solve(day: usize, input: String) -> Solution {
     match day {
         // 0 is special for the sample day (day 4 of 2022)
         0 => day0::solve(input),
+        1 => day1::solve(input),
         _ => unimplemented!("Day {} not implemented", day),
     }
 }

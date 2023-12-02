@@ -3,7 +3,7 @@ use std::fs;
 
 fn main() {
     // let cli = Cli::parse();
-    let solutions: aoc2023::Solution = aoc2023::solve(0, input("inputs/day0.txt"));
+    let solutions: aoc2023::Solution = aoc2023::solve(1, input("inputs/day1.txt"));
     println!(
         "Solutions for day 0 are: {} and {}",
         solutions.one, solutions.two
