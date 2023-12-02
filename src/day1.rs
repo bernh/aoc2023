@@ -50,9 +50,12 @@ fn get_cal_value_real(value_str: &String) -> u32 {
     }
 
     let re = Regex::new(r"[0-9]|one|two|three|four|five|six|seven|eight|nine").unwrap();
-    let digits: Vec<&str> = re.find_iter(&value_str).map(|m| m.as_str()).collect();
-    assert!(digits.len() > 0);
-    to_u32(digits[0]) * 10 + to_u32(digits[digits.len() - 1])
+    let re_last = Regex::new(r".*([0-9]|one|two|three|four|five|six|seven|eight|nine)").unwrap();
+
+    let first = re.find(&value_str).unwrap().as_str();
+    let last = &re_last.captures(&value_str).unwrap()[1];
+
+    to_u32(first) * 10 + to_u32(last)
 }
 
 #[cfg(test)]
@@ -90,6 +93,8 @@ mod tests {
         );
         assert_eq!(get_cal_value_real(&"52three".to_owned()), 53);
         assert_eq!(get_cal_value_real(&"nine".to_owned()), 99);
+        // this is a crucial test! greedy regex matching finds a two!
+        assert_eq!(get_cal_value_real(&"1twone".to_owned()), 11);
     }
 
     #[test]
@@ -104,7 +109,7 @@ mod tests {
             "7pqrstsixteen".to_owned(),
         ];
 
-        let sol2: u32 = lines.iter().map(get_cal_value_real).sum();
-        assert_eq!(sol2, 281);
+        let sol: u32 = lines.iter().map(get_cal_value_real).sum();
+        assert_eq!(sol, 281);
     }
 }
