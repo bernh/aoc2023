@@ -2,8 +2,9 @@
 mod day0;
 mod day1;
 mod day2;
+mod day3;
+
 use wasm_bindgen::prelude::*;
-// use web_sys::console;
 
 #[wasm_bindgen(getter_with_clone)]
 pub struct Solution {
@@ -16,6 +17,7 @@ pub fn solve(day: usize, input: String) -> Solution {
         0 => day0::solve(input), // 0 is for the sample day (day 4 of 2022)
         1 => day1::solve(input),
         2 => day2::solve(input),
+        3 => day3::solve(input),
         _ => unimplemented!("Day {} not implemented", day),
     }
 }

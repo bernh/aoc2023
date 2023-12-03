@@ -1,20 +1,43 @@
 // use clap::{arg, Parser};
+use clap::{arg, Parser};
 use std::fs;
 use std::time::Instant;
 
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    // day
+    #[arg(short, long, value_name = "DAY")]
+    day: Option<usize>,
+
+    // run all days
+    #[arg(short, long)]
+    all: bool,
+}
+
 fn main() {
-    // let cli = Cli::parse();
+    let cli = Cli::parse();
+
+    if let Some(day) = cli.day {
+        solve(day);
+    } else {
+        // default
+        solve(3);
+    }
+}
+
+fn solve(day: usize) {
     let now = Instant::now();
-    let solutions: aoc2023::Solution = aoc2023::solve(2, input("inputs/day2.txt"));
+    let solutions: aoc2023::Solution =
+        aoc2023::solve(day, input(&format!("inputs/day{}.txt", day)));
     let elapsed = now.elapsed();
     println!(
-        "Solutions for day 0 are: {} and {}",
-        solutions.one, solutions.two
+        "Day {} are: {} and {} ({:.2?} elapsed)",
+        day, solutions.one, solutions.two, elapsed
     );
-    println!("Time elapsed: {:.2?}", elapsed)
 }
 
 // simple but fragile file read, just panics if something goes wrong
-pub fn input(file: &str) -> String {
+fn input(file: &str) -> String {
     fs::read_to_string(file).unwrap_or("reading input file went wrong".to_string())
 }
