@@ -81,8 +81,8 @@ fn check_adjacent_symbol(
     let mut retval = false;
     // top and bottom row
     for y in num.start - 1..=num.end + 1 {
-        let sym_above = Symbol(num.row - 1, y as i32);
-        let sym_below = Symbol(num.row + 1, y as i32);
+        let sym_above = Symbol(num.row - 1, y);
+        let sym_below = Symbol(num.row + 1, y);
         if (symbols.contains(&sym_above) || symbols.contains(&sym_below)) {
             retval = true;
         }

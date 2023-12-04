@@ -15,7 +15,7 @@ struct Card {
 }
 
 impl Card {
-    fn score_1(self: &Self) -> u32 {
+    fn score_1(&self) -> u32 {
         let count = self
             .actual
             .iter()
@@ -29,7 +29,7 @@ impl Card {
         }
     }
 
-    fn score_2(self: &Self) -> u32 {
+    fn score_2(&self) -> u32 {
         self.actual
             .iter()
             .map(|a| self.winning.contains(a))

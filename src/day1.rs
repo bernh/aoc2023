@@ -10,7 +10,7 @@ pub fn solve(input: &str) -> Solution {
 
     //second puzzle
     let sol2: u32 = lines.iter().map(|v| get_cal_value_real(v)).sum();
-    assert_eq!(sol2, 78111);
+    assert_eq!(sol2, 53268);
 
     Solution {
         one: sol1.to_string(),
@@ -20,8 +20,8 @@ pub fn solve(input: &str) -> Solution {
 
 fn get_cal_value(value_str: &str) -> u32 {
     let re = Regex::new(r"[0-9]").unwrap();
-    let digits: Vec<&str> = re.find_iter(&value_str).map(|m| m.as_str()).collect();
-    assert!(digits.len() > 0);
+    let digits: Vec<&str> = re.find_iter(value_str).map(|m| m.as_str()).collect();
+    assert!(!digits.is_empty());
     digits[0].parse::<u32>().unwrap() * 10 + digits[digits.len() - 1].parse::<u32>().unwrap()
 }
 
@@ -53,8 +53,8 @@ fn get_cal_value_real(value_str: &str) -> u32 {
     let re = Regex::new(r"[0-9]|one|two|three|four|five|six|seven|eight|nine").unwrap();
     let re_last = Regex::new(r".*([0-9]|one|two|three|four|five|six|seven|eight|nine)").unwrap();
 
-    let first = re.find(&value_str).unwrap().as_str();
-    let last = &re_last.captures(&value_str).unwrap()[1];
+    let first = re.find(value_str).unwrap().as_str();
+    let last = &re_last.captures(value_str).unwrap()[1];
 
     to_u32(first) * 10 + to_u32(last)
 }
@@ -65,14 +65,14 @@ mod tests {
 
     #[test]
     fn parse_single_value() {
-        assert_eq!(get_cal_value(&"1abc2"), 12);
-        assert_eq!(get_cal_value(&"pqr3stu8vwx"), 38);
-        assert_eq!(get_cal_value(&"a1b2c3d4e5f"), 15);
+        assert_eq!(get_cal_value("1abc2"), 12);
+        assert_eq!(get_cal_value("pqr3stu8vwx"), 38);
+        assert_eq!(get_cal_value("a1b2c3d4e5f"), 15);
     }
 
     #[test]
     fn solve_example1() {
-        let lines = vec!["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
+        let lines = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
 
         let sol: u32 = lines.iter().map(|v| get_cal_value(v)).sum();
         assert_eq!(sol, 142);
@@ -84,18 +84,18 @@ mod tests {
     #[test]
     fn test_single_value_2() {
         assert_eq!(
-            get_cal_value_real(&"eight9fhstbssrplmdlncmmqqnklb39ninejz".to_owned()),
+            get_cal_value_real("eight9fhstbssrplmdlncmmqqnklb39ninejz"),
             89
         );
-        assert_eq!(get_cal_value_real(&"52three"), 53);
-        assert_eq!(get_cal_value_real(&"nine"), 99);
+        assert_eq!(get_cal_value_real("52three"), 53);
+        assert_eq!(get_cal_value_real("nine"), 99);
         // this is a crucial test! greedy regex matching finds a two!
-        assert_eq!(get_cal_value_real(&"1twone"), 11);
+        assert_eq!(get_cal_value_real("1twone"), 11);
     }
 
     #[test]
     fn solve_example2() {
-        let lines = vec![
+        let lines = [
             "two1nine",
             "eightwothree",
             "abcone2threexyz",

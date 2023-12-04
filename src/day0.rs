@@ -12,7 +12,7 @@ struct Pair {
 
 pub fn solve(input: &str) -> Solution {
     let lines: Vec<&str> = input.split_terminator('\n').collect();
-    let pairs: Vec<Pair> = lines.into_iter().map(|x| parse(x)).collect();
+    let pairs: Vec<Pair> = lines.into_iter().map(parse).collect();
 
     // first part
     let overlapping_pairs: Vec<&Pair> = pairs.iter().filter(|p| overlaps(p)).collect();
@@ -31,7 +31,7 @@ pub fn solve(input: &str) -> Solution {
 
 fn parse(pair_descr: &str) -> Pair {
     let re = Regex::new(r"(?P<s1>[0-9]+)-(?P<e1>[0-9]+),(?P<s2>[0-9]+)-(?P<e2>[0-9]+)").unwrap();
-    let caps = re.captures(&pair_descr).unwrap();
+    let caps = re.captures(pair_descr).unwrap();
     Pair {
         start_1: caps["s1"].parse().unwrap(),
         end_1: caps["e1"].parse().unwrap(),
@@ -69,15 +69,11 @@ mod tests {
 
     #[test]
     fn solve_sample() {
-        let mut input = Vec::new();
-        input.push("2-4,6-8");
-        input.push("2-3,4-5");
-        input.push("5-7,7-9");
-        input.push("2-8,3-7");
-        input.push("6-6,4-6");
-        input.push("2-6,4-8");
+        let input = vec![
+            "2-4,6-8", "2-3,4-5", "5-7,7-9", "2-8,3-7", "6-6,4-6", "2-6,4-8",
+        ];
 
-        let pairs: Vec<Pair> = input.into_iter().map(|x| parse(x)).collect();
+        let pairs: Vec<Pair> = input.into_iter().map(parse).collect();
 
         // first part
         let overlapping_pairs: Vec<&Pair> = pairs.iter().filter(|p| overlaps(p)).collect();
