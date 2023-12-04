@@ -1,15 +1,16 @@
 use crate::Solution;
 use regex::Regex;
 
-pub fn solve(input: String) -> Solution {
-    let lines: Vec<String> = input.split_terminator('\n').map(|x| x.to_owned()).collect();
+pub fn solve(input: &str) -> Solution {
+    let lines: Vec<&str> = input.split_terminator('\n').collect();
 
     // first puzzle
-    let sol1: u32 = lines.iter().map(get_cal_value).sum();
+    let sol1: u32 = lines.iter().map(|v| get_cal_value(v)).sum();
     assert_eq!(sol1, 53080); // known solution
 
     //second puzzle
-    let sol2: u32 = lines.iter().map(get_cal_value_real).sum();
+    let sol2: u32 = lines.iter().map(|v| get_cal_value_real(v)).sum();
+    assert_eq!(sol2, 78111);
 
     Solution {
         one: sol1.to_string(),
@@ -17,14 +18,14 @@ pub fn solve(input: String) -> Solution {
     }
 }
 
-fn get_cal_value(value_str: &String) -> u32 {
+fn get_cal_value(value_str: &str) -> u32 {
     let re = Regex::new(r"[0-9]").unwrap();
     let digits: Vec<&str> = re.find_iter(&value_str).map(|m| m.as_str()).collect();
     assert!(digits.len() > 0);
     digits[0].parse::<u32>().unwrap() * 10 + digits[digits.len() - 1].parse::<u32>().unwrap()
 }
 
-fn get_cal_value_real(value_str: &String) -> u32 {
+fn get_cal_value_real(value_str: &str) -> u32 {
     fn to_u32(d: &str) -> u32 {
         match d {
             "1" => 1,
@@ -64,24 +65,19 @@ mod tests {
 
     #[test]
     fn parse_single_value() {
-        assert_eq!(get_cal_value(&"1abc2".to_owned()), 12);
-        assert_eq!(get_cal_value(&"pqr3stu8vwx".to_owned()), 38);
-        assert_eq!(get_cal_value(&"a1b2c3d4e5f".to_owned()), 15);
+        assert_eq!(get_cal_value(&"1abc2"), 12);
+        assert_eq!(get_cal_value(&"pqr3stu8vwx"), 38);
+        assert_eq!(get_cal_value(&"a1b2c3d4e5f"), 15);
     }
 
     #[test]
     fn solve_example1() {
-        let lines = vec![
-            "1abc2".to_owned(),
-            "pqr3stu8vwx".to_owned(),
-            "a1b2c3d4e5f".to_owned(),
-            "treb7uchet".to_owned(),
-        ];
+        let lines = vec!["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
 
-        let sol: u32 = lines.iter().map(get_cal_value).sum();
+        let sol: u32 = lines.iter().map(|v| get_cal_value(v)).sum();
         assert_eq!(sol, 142);
         // should be the same result with second parsing method
-        let sol: u32 = lines.iter().map(get_cal_value_real).sum();
+        let sol: u32 = lines.iter().map(|v| get_cal_value_real(v)).sum();
         assert_eq!(sol, 142);
     }
 
@@ -91,25 +87,25 @@ mod tests {
             get_cal_value_real(&"eight9fhstbssrplmdlncmmqqnklb39ninejz".to_owned()),
             89
         );
-        assert_eq!(get_cal_value_real(&"52three".to_owned()), 53);
-        assert_eq!(get_cal_value_real(&"nine".to_owned()), 99);
+        assert_eq!(get_cal_value_real(&"52three"), 53);
+        assert_eq!(get_cal_value_real(&"nine"), 99);
         // this is a crucial test! greedy regex matching finds a two!
-        assert_eq!(get_cal_value_real(&"1twone".to_owned()), 11);
+        assert_eq!(get_cal_value_real(&"1twone"), 11);
     }
 
     #[test]
     fn solve_example2() {
         let lines = vec![
-            "two1nine".to_owned(),
-            "eightwothree".to_owned(),
-            "abcone2threexyz".to_owned(),
-            "xtwone3four".to_owned(),
-            "4nineeightseven2".to_owned(),
-            "zoneight234".to_owned(),
-            "7pqrstsixteen".to_owned(),
+            "two1nine",
+            "eightwothree",
+            "abcone2threexyz",
+            "xtwone3four",
+            "4nineeightseven2",
+            "zoneight234",
+            "7pqrstsixteen",
         ];
 
-        let sol: u32 = lines.iter().map(get_cal_value_real).sum();
+        let sol: u32 = lines.iter().map(|v| get_cal_value_real(v)).sum();
         assert_eq!(sol, 281);
     }
 }

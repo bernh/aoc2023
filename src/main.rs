@@ -29,10 +29,10 @@ fn main() {
 fn solve(day: usize) {
     let now = Instant::now();
     let solutions: aoc2023::Solution =
-        aoc2023::solve(day, input(&format!("inputs/day{}.txt", day)));
+        aoc2023::solve(day, &input(&format!("inputs/day{}.txt", day)));
     let elapsed = now.elapsed();
     println!(
-        "Day {} are: {} and {} ({:.2?} elapsed)",
+        "Day {} solutions are: {} and {} ({:.2?} elapsed)",
         day, solutions.one, solutions.two, elapsed
     );
 }

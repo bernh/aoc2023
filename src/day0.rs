@@ -1,5 +1,4 @@
 use crate::Solution;
-use log::info;
 use regex::Regex;
 
 // use regex::Regex;
@@ -11,18 +10,18 @@ struct Pair {
     end_2: u32,
 }
 
-pub fn solve(input: String) -> Solution {
-    let lines: Vec<String> = input.split_terminator('\n').map(|x| x.to_owned()).collect();
+pub fn solve(input: &str) -> Solution {
+    let lines: Vec<&str> = input.split_terminator('\n').collect();
     let pairs: Vec<Pair> = lines.into_iter().map(|x| parse(x)).collect();
 
     // first part
     let overlapping_pairs: Vec<&Pair> = pairs.iter().filter(|p| overlaps(p)).collect();
-    info!("Solution 1: {}", overlapping_pairs.len());
+    assert_eq!(overlapping_pairs.len(), 511);
 
     // second part
     let partially_overlapping_pairs: Vec<&Pair> =
         pairs.iter().filter(|p| overlaps_partial(p)).collect();
-    info!("Solution 2: {}", partially_overlapping_pairs.len());
+    assert_eq!(partially_overlapping_pairs.len(), 821);
 
     Solution {
         one: overlapping_pairs.len().to_string(),
@@ -30,7 +29,7 @@ pub fn solve(input: String) -> Solution {
     }
 }
 
-fn parse(pair_descr: String) -> Pair {
+fn parse(pair_descr: &str) -> Pair {
     let re = Regex::new(r"(?P<s1>[0-9]+)-(?P<e1>[0-9]+),(?P<s2>[0-9]+)-(?P<e2>[0-9]+)").unwrap();
     let caps = re.captures(&pair_descr).unwrap();
     Pair {
@@ -58,7 +57,7 @@ mod tests {
     #[test]
     fn parse_pair() {
         assert_eq!(
-            parse("3-4,4-9".to_owned()),
+            parse("3-4,4-9"),
             Pair {
                 start_1: 3,
                 end_1: 4,
@@ -71,12 +70,12 @@ mod tests {
     #[test]
     fn solve_sample() {
         let mut input = Vec::new();
-        input.push("2-4,6-8".to_owned());
-        input.push("2-3,4-5".to_owned());
-        input.push("5-7,7-9".to_owned());
-        input.push("2-8,3-7".to_owned());
-        input.push("6-6,4-6".to_owned());
-        input.push("2-6,4-8".to_owned());
+        input.push("2-4,6-8");
+        input.push("2-3,4-5");
+        input.push("5-7,7-9");
+        input.push("2-8,3-7");
+        input.push("6-6,4-6");
+        input.push("2-6,4-8");
 
         let pairs: Vec<Pair> = input.into_iter().map(|x| parse(x)).collect();
 

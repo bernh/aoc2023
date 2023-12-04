@@ -69,7 +69,7 @@ impl FromStr for Card {
     }
 }
 
-pub fn solve(input: String) -> Solution {
+pub fn solve(input: &str) -> Solution {
     let lines: Vec<&str> = input.split_terminator('\n').collect();
     let mut cards: Vec<Card> = lines.iter().map(|l| Card::from_str(l).unwrap()).collect();
 

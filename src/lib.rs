@@ -13,7 +13,7 @@ pub struct Solution {
     pub two: String,
 }
 
-pub fn solve(day: usize, input: String) -> Solution {
+pub fn solve(day: usize, input: &str) -> Solution {
     match day {
         0 => day0::solve(input), // 0 is for the sample day (day 4 of 2022)
         1 => day1::solve(input),
@@ -25,7 +25,7 @@ pub fn solve(day: usize, input: String) -> Solution {
 }
 
 #[wasm_bindgen]
-pub fn wasm_solve(_day: usize, input: String) -> String {
+pub fn wasm_solve(_day: usize, input: &str) -> String {
     let solution = day0::solve(input);
     format!("Solutions are: {} and {}", solution.one, solution.two)
 }

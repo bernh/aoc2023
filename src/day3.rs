@@ -19,8 +19,8 @@ struct Number {
 #[derive(Debug, PartialEq, PartialOrd, Eq, Ord, Clone)]
 struct Symbol(i32, i32);
 
-pub fn solve(input: String) -> Solution {
-    let (numbers, symbols, mut gears) = parse(&input);
+pub fn solve(input: &str) -> Solution {
+    let (numbers, symbols, mut gears) = parse(input);
 
     // first puzzle
     let sol1: u32 = numbers

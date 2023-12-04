@@ -9,24 +9,20 @@ struct Game {
     green: u32,
 }
 
-pub fn solve(input: String) -> Solution {
-    let lines: Vec<String> = input.split_terminator('\n').map(|x| x.to_owned()).collect();
+pub fn solve(input: &str) -> Solution {
+    let lines: Vec<&str> = input.split_terminator('\n').collect();
 
     // first puzzle
     let sol1: u32 = lines
         .iter()
-        .map(|l| parse_game(&l))
+        .map(|l| parse_game(l))
         .filter(game_possible)
         .map(|g| g.id)
         .sum();
     assert_eq!(sol1, 2545);
 
     //second puzzle
-    let sol2: u32 = lines
-        .iter()
-        .map(|l| parse_game(&l))
-        .map(|g| power(&g))
-        .sum();
+    let sol2: u32 = lines.iter().map(|l| parse_game(l)).map(|g| power(&g)).sum();
     assert_eq!(sol2, 78111);
 
     Solution {
