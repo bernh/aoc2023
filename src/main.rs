@@ -22,7 +22,7 @@ fn main() {
         solve(day);
     } else {
         // default
-        solve(4);
+        solve(6);
     }
 }
 
