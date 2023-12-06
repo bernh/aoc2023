@@ -3,7 +3,7 @@
 use crate::Solution;
 use regex::Regex;
 
-pub fn solve(input: String) -> Solution {
+pub fn solve(input: &str) -> Solution {
     let lines: Vec<&str> = input.split_terminator('\n').collect();
 
     // first puzzle
