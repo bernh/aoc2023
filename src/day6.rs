@@ -35,8 +35,8 @@ pub fn solve(input: &str) -> Solution {
 
 fn parse_1(lines: &Vec<&str>) -> Vec<Race> {
     // for this day it would be faster to manually enter the input ;-)
-    let times: Vec<_> = lines[0].split(' ').filter(|x| !x.is_empty()).collect();
-    let records: Vec<_> = lines[1].split(' ').filter(|x| !x.is_empty()).collect();
+    let times: Vec<_> = lines[0].split_ascii_whitespace().collect();
+    let records: Vec<_> = lines[1].split_ascii_whitespace().collect();
     zip(&times[1..], &records[1..])
         .map(|(t, r): (&&str, &&str)| Race {
             time: t.parse::<u64>().unwrap(),
@@ -47,8 +47,8 @@ fn parse_1(lines: &Vec<&str>) -> Vec<Race> {
 
 fn parse_2(lines: &Vec<&str>) -> Vec<Race> {
     // re-use parse_1 code
-    let times: Vec<_> = lines[0].split(' ').filter(|x| !x.is_empty()).collect();
-    let records: Vec<_> = lines[1].split(' ').filter(|x| !x.is_empty()).collect();
+    let times: Vec<_> = lines[0].split_ascii_whitespace().collect();
+    let records: Vec<_> = lines[1].split_ascii_whitespace().collect();
     // concat
     let time = times[1..]
         .iter()
