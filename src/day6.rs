@@ -16,10 +16,7 @@ pub fn solve(input: &str) -> Solution {
 
     // first puzzle
     let races = parse_1(&lines);
-    let sol1 = races
-        .iter()
-        .map(|r| num_calc_winning_times(r))
-        .fold(1, |acc, x| acc * x);
+    let sol1: u64 = races.iter().map(num_calc_winning_times).product();
     assert_eq!(sol1, 1624896);
 
     //second puzzle
@@ -33,7 +30,7 @@ pub fn solve(input: &str) -> Solution {
     }
 }
 
-fn parse_1(lines: &Vec<&str>) -> Vec<Race> {
+fn parse_1(lines: &[&str]) -> Vec<Race> {
     // for this day it would be faster to manually enter the input ;-)
     let times: Vec<_> = lines[0].split_ascii_whitespace().collect();
     let records: Vec<_> = lines[1].split_ascii_whitespace().collect();
@@ -45,7 +42,7 @@ fn parse_1(lines: &Vec<&str>) -> Vec<Race> {
         .collect()
 }
 
-fn parse_2(lines: &Vec<&str>) -> Vec<Race> {
+fn parse_2(lines: &[&str]) -> Vec<Race> {
     // re-use parse_1 code
     let times: Vec<_> = lines[0].split_ascii_whitespace().collect();
     let records: Vec<_> = lines[1].split_ascii_whitespace().collect();
@@ -101,10 +98,7 @@ mod tests {
         assert_eq!(num_calc_winning_times(&races[0]), 4);
         assert_eq!(num_calc_winning_times(&races[1]), 8);
         assert_eq!(num_calc_winning_times(&races[2]), 9);
-        let sol1 = races
-            .iter()
-            .map(|r| num_calc_winning_times(r))
-            .fold(1, |acc, x| acc * x);
+        let sol1: u64 = races.iter().map(num_calc_winning_times).product();
         assert_eq!(sol1, 288);
     }
 

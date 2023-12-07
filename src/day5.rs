@@ -10,7 +10,7 @@ pub fn solve(input: &str) -> Solution {
 
     //second puzzle
     let mut min: u64 = std::u64::MAX;
-    // TODO use rayon to parallaize search!
+    // TODO use rayon to parallize search!
     for chunk in seeds.seeds.chunks(2) {
         let start = chunk[0];
         let len = chunk[1];
@@ -47,7 +47,7 @@ struct Map<Mappings> {
 }
 
 impl Map<Mappings> {
-    fn map_num(self: &Self, s: u64) -> u64 {
+    fn map_num(&self, s: u64) -> u64 {
         for m in self.maps.iter() {
             if s >= m.src_start && s < (m.src_start + m.len) {
                 return (s - m.src_start) + m.dst_start;

@@ -89,7 +89,7 @@ impl Hand {
     fn from_str(input: &str) -> Self {
         let cards: [Card; 5] = input[0..5]
             .chars()
-            .map(|c| Card::from_char(c))
+            .map(Card::from_char)
             .collect::<Vec<Card>>()
             .try_into()
             .unwrap();
@@ -194,18 +194,18 @@ impl PartialOrd for Hand {
 impl Ord for Hand {
     fn cmp(&self, other: &Self) -> Ordering {
         if self.htype != other.htype {
-            return self.htype.cmp(&other.htype);
+            self.htype.cmp(&other.htype)
         } else {
             // compare individual cards
             let dif: Vec<(&Card, &Card)> = zip(&self.cards, &other.cards)
                 .filter(|(s, o)| s != o)
                 .collect();
-            return dif[0].0.cmp(&dif[0].1);
+            dif[0].0.cmp(dif[0].1)
         }
     }
 }
 
-fn total_winnings(hands: &mut Vec<Hand>) -> u32 {
+fn total_winnings(hands: &mut [Hand]) -> u32 {
     hands.sort();
     hands
         .iter()
