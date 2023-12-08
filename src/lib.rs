@@ -7,6 +7,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 use wasm_bindgen::prelude::*;
 
@@ -26,6 +27,7 @@ pub fn solve(day: usize, input: &str) -> Solution {
         5 => day5::solve(input),
         6 => day6::solve(input),
         7 => day7::solve(input),
+        8 => day8::solve(input),
         _ => unimplemented!("Day {} not implemented", day),
     }
 }
