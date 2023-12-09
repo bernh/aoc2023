@@ -90,6 +90,8 @@ fn find_way_2(directions: &str, network: &BTreeMap<&str, Node>) -> u64 {
 fn find_way_2_alternative(directions: &str, network: &BTreeMap<&str, Node>) -> u64 {
     // slightly cheating here - took some spoilers (-> least common multiplier)
     // but this was not clear from the instructions (IMO)
+    // also missing from the instructions: distinct paths for each starting node
+    // to end node
     let mut steps = 0;
     let mut nodes: Vec<&Node> = network
         .values()
@@ -101,6 +103,7 @@ fn find_way_2_alternative(directions: &str, network: &BTreeMap<&str, Node>) -> u
         .map(|n| find_way(n.location, directions, network))
         .collect();
 
+    // XXX this is a hack. Won't work if certain prime factors appear multiple times
     let mut prime_factors: HashSet<u64> = HashSet::new();
     for s in individual_steps {
         let facts = Factorization::<u64>::run(s as u64);
