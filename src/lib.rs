@@ -1,6 +1,7 @@
 // declare modules: example + one per day
 mod day0;
 mod day1;
+mod day10;
 mod day2;
 mod day3;
 mod day4;
@@ -30,6 +31,7 @@ pub fn solve(day: usize, input: &str) -> Solution {
         7 => day7::solve(input),
         8 => day8::solve(input),
         9 => day9::solve(input),
+        10 => day10::solve(input),
         _ => unimplemented!("Day {} not implemented", day),
     }
 }
