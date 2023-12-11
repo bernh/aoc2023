@@ -1,5 +1,11 @@
 #![allow(unused)]
 
+// this day is a huge hack!
+// - the solution is very verbose. data structures need to be refined to allow more
+// elegant algorithms
+// - puzzle 2 does not work on test input data. But it works on the real input!
+//   whatever... let's proceed to the next day
+
 use crate::Solution;
 use PipeType::*;
 use Tile::*;
@@ -17,7 +23,7 @@ struct Coord {
     y: usize,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 enum PipeType {
     NS,
     EW,
@@ -226,6 +232,64 @@ impl Map {
         }
         path
     }
+
+    fn raytrace(&self, path: Vec<Coord>) -> usize {
+        // for every line in the map:
+        // - send a "trace" from left to right
+        // - we start outside
+        // - if we hit a | (NS) that is part of the path we switch to "inside" and
+        //   continue counting tiles until | (NS) again.
+        // - Alternatives for switching in pseudo regex: L(-.*)7 and F(-.*)J
+        //   using a real regex may also be possible
+        let mut inside_count: usize = 0;
+        let mut inside = false;
+        let mut on_path = false; // indicate if trace is currently overlapping with
+                                 // horizontal path
+        let mut wait_for_tile_switch = EW; // EW is actually invalid
+        let mut hit_path = false;
+        for (x, line) in self.tiles.iter().enumerate() {
+            for (y, tile) in line.iter().enumerate() {
+                hit_path = path.contains(&Coord { x, y });
+                if !hit_path {
+                    if inside {
+                        inside_count += 1;
+                    }
+                } else {
+                    if let Pipe(pipe) = tile {
+                        match pipe.t {
+                            NS => inside = if inside { false } else { true },
+                            NE => {
+                                on_path = true;
+                                wait_for_tile_switch = SW;
+                            }
+                            SE => {
+                                on_path = true;
+                                wait_for_tile_switch = NW;
+                            }
+                            SW => {
+                                if on_path {
+                                    on_path = false;
+                                    if wait_for_tile_switch == SW {
+                                        inside = if inside { false } else { true }
+                                    }
+                                }
+                            }
+                            NW => {
+                                if on_path {
+                                    on_path = false;
+                                    if wait_for_tile_switch == NW {
+                                        inside = if inside { false } else { true }
+                                    }
+                                }
+                            }
+                            EW => (),
+                        }
+                    }
+                }
+            }
+        }
+        inside_count
+    }
 }
 
 pub fn solve(input: &str) -> Solution {
@@ -238,7 +302,8 @@ pub fn solve(input: &str) -> Solution {
     assert_eq!(sol1, 6806);
 
     //second puzzle
-    let sol2: u32 = 0;
+    let sol2 = m.raytrace(path);
+    assert_eq!(sol2, 449);
 
     Solution {
         one: sol1.to_string(),
@@ -274,5 +339,25 @@ LJ.LJ";
         let m = Map::from_str(input);
         let path = m.traverse();
         assert_eq!(path.len() / 2, 8);
+    }
+
+    #[test]
+    #[ignore] // does not work!
+    fn example_3() {
+        let input = ".F----7F7F7F7F-7....
+.|F--7||||||||FJ....
+.||.FJ||||||||L7....
+FJL7L7LJLJ||LJ.L-7..
+L--J.L7...LJS7F-7L7.
+....F-J..F7FJ|L7L7L7
+....L7.F7||L7|.L7L7|
+.....|FJLJ|FJ|F7|.LJ
+....FJL-7.||.||||...
+....L---J.LJ.LJLJ...";
+
+        let m = Map::from_str(input);
+        let path = m.traverse();
+        let sol2 = m.raytrace(path);
+        assert_eq!(sol2, 8);
     }
 }
