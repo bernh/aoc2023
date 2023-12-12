@@ -4,7 +4,7 @@ use crate::Solution;
 use regex::Regex;
 
 pub fn solve(input: &str) -> Solution {
-    let lines: Vec<&str> = input.split_terminator('\n').collect();
+    let lines: Vec<&str> = input.lines().collect();
 
     // first puzzle
     let sol1: u32 = 0;
@@ -23,12 +23,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_single_line_1() {
-        unimplemented!()
-    }
-
-    #[test]
     fn example_1() {
-        unimplemented!()
+        todo()!
     }
 }
