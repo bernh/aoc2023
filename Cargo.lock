@@ -65,6 +65,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "env_logger",
+ "itertools 0.12.0",
  "log",
  "prime_factorization",
  "regex",
@@ -223,6 +224,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25db6b064527c5d482d0423354fcd07a89a2dfe07b67892e62411946db7f07b0"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "js-sys"
 version = "0.3.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -349,7 +359,7 @@ version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "61b43cd4d5e49fa3c769f72033129f07eeaa102c3db2aa11be0c7f1a0cb50f0c"
 dependencies = [
- "itertools",
+ "itertools 0.10.5",
  "num",
  "rand",
 ]
