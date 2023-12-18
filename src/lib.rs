@@ -7,6 +7,7 @@ mod day12;
 mod day13;
 mod day15;
 mod day16;
+mod day17;
 mod day2;
 mod day3;
 mod day4;
@@ -43,6 +44,7 @@ pub fn solve(day: usize, input: &str) -> Solution {
         14 => todo!(),
         15 => day15::solve(input),
         16 => day16::solve(input),
+        17 => day17::solve(input),
         _ => unimplemented!("Day {} not implemented", day),
     }
 }
